@@ -41,15 +41,17 @@ namespace Common {
     /// passes the function to be run on that thread as well as the arguments to the function.
     template<typename T, typename... A>
     inline auto createAndStartThread(int core_id, const std::string &name, T &&func, A &&... args) noexcept {
-        auto t = new std::thread([=]() {
+        auto t = new std::thread([core_id, name, func = std::move(func)](A&&... forwarded_args) mutable {
             if (core_id >= 0 && !setThreadCore(core_id)) {
-                std::cerr << "Failed to set core affinity for " << name << " thread: " << pthread_self() << " to core " << core_id << std::endl;
+                std::cerr << "Failed to set core affinity for " << name
+                          << " thread: " << pthread_self() << " to core " << core_id << std::endl;
                 exit(EXIT_FAILURE);
             }
-            std::cerr << "Set core affinity for " << name << " thread: " << pthread_self() << " to core " << core_id << std::endl;
+            std::cerr << "Set core affinity for " << name
+                      << " thread: " << pthread_self() << " to core " << core_id << std::endl;
 
-            std::forward<T>(func)(std::forward<A>(args)...);
-        });
+            func(std::forward<A>(forwarded_args)...);
+        }, std::forward<A>(args)...);
 
         using namespace std::literals::chrono_literals;
         std::this_thread::sleep_for(1s);

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <sstream>
 #include <vector>
 #include <atomic>
 
@@ -29,7 +30,11 @@ namespace Common {
 
         auto updateReadIndex() noexcept {
             next_read_index_ = (next_read_index_ + 1) % store_.size();
-            ASSERT(num_elements_ != 0, "Read an invalid element in:" + std::to_string(pthread_self()));
+
+            std::ostringstream ss;
+            ss << pthread_self();
+
+            ASSERT(num_elements_ != 0, "Read an invalid element in:" + ss.str());
             num_elements_--;
         }
 
