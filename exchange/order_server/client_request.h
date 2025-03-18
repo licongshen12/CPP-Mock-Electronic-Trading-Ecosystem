@@ -2,8 +2,8 @@
 
 #include <sstream>
 
-#include "../../common/types.h"
-#include "../../common/lf_queue.h"
+#include "common/types.h"
+#include "common/lf_queue.h"
 
 using namespace Common;
 

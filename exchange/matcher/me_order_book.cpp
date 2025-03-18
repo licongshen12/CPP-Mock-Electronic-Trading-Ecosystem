@@ -2,7 +2,7 @@
 
 #include "me_order_book.h"
 
-#include "../matcher/matching_engine.h"
+#include "matcher/matching_engine.h"
 
 namespace Exchange {
     MEOrderBook::MEOrderBook(TickerId ticker_id, Logger *logger, MatchingEngine *matching_engine)
