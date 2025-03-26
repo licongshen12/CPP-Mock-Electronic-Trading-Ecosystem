@@ -12,8 +12,7 @@ namespace Trading {
     class MarketMaker {
     public:
         MarketMaker(Common::Logger *logger, TradeEngine *trade_engine, const FeatureEngine *feature_engine,
-                    OrderManager *order_manager,
-                    const TradeEngineCfgHashMap &ticker_cfg);
+                    OrderManager *order_manager, const TradeEngineCfgHashMap &ticker_cfg);
 
         auto onOrderBookUpdate(TickerId ticker_id, Price price, Side side, const MarketOrderBook *book) noexcept -> void {
             logger_->log("%:% %() % ticker:% price:% side:%\n", __FILE__, __LINE__, __FUNCTION__,
