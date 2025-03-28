@@ -66,9 +66,10 @@ namespace Trading {
 
     class RiskManager {
     public:
-        RiskManager(Common::Logger *logger, const PositionKeeper *position_keeper, const TradeEngineCfgHashMap &ticker_cfg);
+        RiskManager(const PositionKeeper *position_keeper, const TradeEngineCfgHashMap &ticker_cfg);
 
         auto checkPreTradeRisk(TickerId ticker_id, Side side, Qty qty) const noexcept {
+
             return ticker_risk_.at(ticker_id).checkPreTradeRisk(side, qty);
         }
 
@@ -85,7 +86,6 @@ namespace Trading {
 
     private:
         std::string time_str_;
-        Common::Logger *logger_ = nullptr;
 
         TickerRiskInfoHashMap ticker_risk_;
     };
